@@ -36,11 +36,11 @@ function bootstrap(){
 		KEYS[i] = false;
 	}
 
-	document.addeventlistener("keydown",function(e){
+	document.addEventListener("keydown",function(e){
 		keys[e.keycode] = true;
 	});
 
-	document.addeventlistener("keydown",function(e){
+	document.addEventListener("keydown",function(e){
 		keys[e.keycode] = false;
 	});
 
