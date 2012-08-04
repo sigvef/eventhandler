@@ -62,8 +62,7 @@ function bootstrap(){
 
 /* TODO: implement this so that the game resizes with the browser on resize */
 function resize(){
-	/* random numbers for now */
-	canvas.width = 800;
-	canvas.height = 480;
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
 }
 
