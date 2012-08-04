@@ -11,12 +11,15 @@ window.requestAnimFrame = (function(){
 
 
 function loop(){
+    t = +new Date();
     dt += (t-old_time);
     old_time = t;
     while(dt>20){
         sm.update();
         dt-= 20;
     }
+    /* clearing canvas */
+    canvas.width = canvas.width;
     sm.render(ctx);
     requestAnimFrame(loop);
 }
@@ -37,15 +40,16 @@ function bootstrap(){
 	}
 
 	document.addEventListener("keydown",function(e){
-		keys[e.keycode] = true;
+		KEYS[e.keyCode] = true;
 	});
 
-	document.addEventListener("keydown",function(e){
-		keys[e.keycode] = false;
+	document.addEventListener("keyup",function(e){
+		KEYS[e.keyCode] = false;
 	});
 
 	/* add game states here */
 	sm.addState("mainmenu", new MainMenuState());
+	sm.addState("game", new GameState());
 
 	resize();
 
@@ -58,6 +62,8 @@ function bootstrap(){
 
 /* TODO: implement this so that the game resizes with the browser on resize */
 function resize(){
-
+	/* random numbers for now */
+	canvas.width = 800;
+	canvas.height = 480;
 }
 
