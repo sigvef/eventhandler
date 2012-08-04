@@ -31,6 +31,18 @@ function bootstrap(){
 	t = 0;
 	time = +new Date();
 	old_time = time;
+	KEYS = [];
+	for(var i=0;i<256;i++){
+		KEYS[i] = false;
+	}
+
+	document.addeventlistener("keydown",function(e){
+		keys[e.keycode] = true;
+	});
+
+	document.addeventlistener("keydown",function(e){
+		keys[e.keycode] = false;
+	});
 
 	/* add game states here */
 
