@@ -45,10 +45,14 @@ function bootstrap(){
 	});
 
 	/* add game states here */
+	sm.addState("mainmenu", new MainMenuState());
 
 	resize();
 
+	document.body.appendChild(canvas);
+
 	/* start the game */
+	sm.changeState("mainmenu");
 	requestAnimFrame(loop);
 }
 

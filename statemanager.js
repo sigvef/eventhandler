@@ -10,7 +10,7 @@ StateManager.prototype.addState = function(name, state){
 }
 
 StateManager.prototype.changeState = function(name){
-	this.activeState.pause();
+	if(this.activeState) this.activeState.pause();
 	this.activeState = this.states[name];
 	this.activeState.resume();
 }
