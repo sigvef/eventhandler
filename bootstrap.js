@@ -61,8 +61,16 @@ function bootstrap(){
 }
 
 /* TODO: implement this so that the game resizes with the browser on resize */
-function resize(){
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+function resize(e){
+	if(window.innerWidth/window.innerHeight > 16/9){
+		GU = (window.innerHeight/9);
+	}else{
+		GU = (window.innerWidth/16);
+	}
+	canvas.width = 16*GU;
+	canvas.height = 9*GU;
+	canvas.style.margin = ((window.innerHeight - 9*GU) /2)+"px 0 0 "+((window.innerWidth-16*GU)/2)+"px";
+
 }
 
+window.onresize = resize;
