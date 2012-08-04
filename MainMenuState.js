@@ -23,7 +23,7 @@ MainMenuState.prototype.render = function(ctx){
 
 	ctx.fillStyle = "white";
 	ctx.font = (GU/2)+"px Arial";
-	ctx.fillText("This is the main menu. press enter to play",100,100);
+	ctx.fillText("This is the main menu. press enter to play",GU,GU);
 }
 
 MainMenuState.prototype.update = function(){
