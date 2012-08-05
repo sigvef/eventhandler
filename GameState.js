@@ -12,6 +12,8 @@ function GameState(){
 
 	this.bgtile = new Image();
 	
+	this.difficulty = 0;
+
 	this.event_name = "..";
 	this.delta = 0;
 	
@@ -113,20 +115,18 @@ GameState.prototype.render = function(ctx){
 		}
 	}
 	ctx.save();
-	ctx.globalCompositeOperation="lighter";
-	ctx.globalAlpha = 1-(songTime/0.48-Math.floor(songTime/0.48));
-	for(var x=0;x<16*GU+this.bgtile.width;x+=this.bgtile.width){
-		for(var y=0;y<9*GU+this.bgtile.width;y+=this.bgtile.height){
-			ctx.drawImage(this.bgtile,x-this.bgX,y-this.bgY);
-		}
-	}
+	ctx.fillStyle = "black";
+	ctx.globalAlpha = 0.7*(0.25+0.25*(1+Math.sin(songTime*Math.PI*2/0.48/32)));
+	ctx.fillRect(0,0,canvas.width,canvas.height);
 	ctx.restore();
 	ctx.fillStyle = "white";
 	ctx.font = (GU/2)+"px Arial";
+	/*
 	ctx.fillText("Hello, Event Handler! I know your job is tough...",2*GU,4*GU);
 	ctx.fillText("But someone has to do it.",2*GU,5*GU);
 	ctx.fillText("Time between events: " + this.delta, 10*GU, 7*GU);
 	ctx.fillText("Event: " + this.event_name + ".", 10*GU, 8*GU);
+	*/
 	
 	for(var x in this.objects) this.objects[x].render(ctx);
 }
@@ -136,10 +136,10 @@ GameState.prototype.update = function(){
 		sm.changeState("mainmenu");
 	}
 
-	this.bgX = (GU/100+this.bgX)%this.bgtile.width;
-	this.bgY = (GU/100+this.bgY)%this.bgtile.height;
+	this.bgX = ((this.difficulty+GU)/100+this.bgX)%this.bgtile.width;
+	this.bgY = ((this.difficulty+GU)/100+this.bgY)%this.bgtile.height;
 	
-	if(this.delta++ >= 100) {
+	if(this.delta++ >= 100-this.difficulty) {
 		this.event_name = this.randomEvent();
 		var random = Math.floor((Math.random()*500)+1);
 		var eo = new EventObject(1+Math.random()*14,1+Math.random()*7,300,this.event_name);
@@ -152,6 +152,7 @@ GameState.prototype.update = function(){
 		if(this.objects[i].isComplete){
 			/* TODO: give player points or something */
 			sfxm.playRandom();
+			this.difficulty++;
 			Array.remove(this.objects,i--);
 		} else if(this.objects[i].timeleft <= 0){
 			/* TODO: the player loses a life or the game */
