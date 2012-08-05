@@ -20,6 +20,8 @@ EventObject.prototype.load = function(){
 	var types = "mousewheel contextmenu dblclick click cut beforeunload resize keypress copy paste".split(" ");
 	for(var i in types){
 		var image = new Image();
+        loaded++;
+        image.onload = function(){console.log(this,"loaded");loaded--; }
 		image.src = "gfx/events/"+types[i]+".png";
 		images[types[i]] = image;
 	}

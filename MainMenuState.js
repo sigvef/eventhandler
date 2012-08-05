@@ -1,6 +1,10 @@
 function MainMenuState(){
 	this.bgtile = new Image();
+    loaded++;
+    this.bgtile.onload = function(){ console.log(this,"loaded");loaded--; }
 	this.playbutton = new Image();
+    loaded++;
+    this.playbutton.onload = function(){ console.log(this,"loaded");loaded--; }
 	this.eventlisteners = [];
     this.message = "";
 }

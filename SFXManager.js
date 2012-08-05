@@ -3,6 +3,9 @@ function SFXManager(){
 	this.announcerSounds = {};
 	for(var i in this.announcerSfxs){
 		var sound = new Audio();
+        loaded++;
+        sound.addEventListener("loadeddata", function(){this.lloaded||loaded--;this.lloaded = true;});
+        sound.addEventListener("canplay", function(){this.lloaded||loaded--;this.lloaded = true;});
 		sound.src = "audio/announcer/"+this.announcerSfxs[i]+".wav";
 		this.announcerSounds[this.announcerSfxs[i]] = sound;
 	}
@@ -10,6 +13,9 @@ function SFXManager(){
 	this.sounds = {};
 	for(var i in this.sfxs){
 		var sound = new Audio();
+        loaded++;
+        sound.addEventListener("loadeddata", function(){this.lloaded||loaded--;this.lloaded = true;});
+        sound.addEventListener("canplay", function(){this.lloaded||loaded--;this.lloaded = true;});
 		sound.src = "audio/"+this.sfxs[i]+".ogg";
         sound.volume = 0.6;
 		this.sounds[this.sfxs[i]] = sound;

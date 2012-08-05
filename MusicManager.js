@@ -2,8 +2,9 @@ function MusicManager(){
 	this.music = new Audio();
     this.loaded = false;
     var that = this;
-	this.music.addEventListener("loadeddata", function(){that.loaded = true;this.play()});
-	this.music.addEventListener("canplay", function(){that.loaded = true;this.play()});
+    loaded++;
+	this.music.addEventListener("loadeddata", function(){that.loaded||loaded--;that.loaded = true;this.play()});
+	this.music.addEventListener("canplay", function(){that.loaded||loaded--;that.loaded = true;this.play()});
     this.music.volume = 0.4;
     if(this.music.canPlayType("mp3")){
         this.music.src = "audio/music.mp3";

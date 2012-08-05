@@ -18,6 +18,15 @@ window.requestAnimFrame = (function(){
 })();
 
 function loop(){
+    if(loaded > 0){
+        canvas.width = canvas.width;
+        ctx.fillStyle = "white";
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = "black";
+        ctx.fillText("Loading "+loaded, 8*GU,4.5*GU);
+        requestAnimFrame(loop);
+        return;
+    }
     t = +new Date();
     dt += (t-old_time);
     old_time = t;
@@ -66,6 +75,8 @@ function loop(){
 
 function bootstrap(){
 
+    loaded = 1;
+
 	/* global on purpose */
 	canvas = document.createElement("canvas");
 	ctx = canvas.getContext("2d");
@@ -78,6 +89,8 @@ function bootstrap(){
 	scanlinectx = scanlinecanvas.getContext("2d");
 	
 	overlay = new Image();
+    loaded++;
+    overlay.onload = function(){ console.log("overlay loaded");loaded--; }
 	overlay.src = "gfx/overlay.png";
 
 	sm = new StateManager();
@@ -110,6 +123,8 @@ function bootstrap(){
 
 	/* start the game */
 	sm.changeState("mainmenu");
+    console.log("bootstrapping loaded");
+    loaded--;
 	requestAnimFrame(loop);
 }
 

@@ -13,6 +13,8 @@ function GameState(){
 	this.event_name = "..";
 
 	this.bgtile = new Image();
+    loaded++;
+    this.bgtile.onload = function(){ loaded--; }
 	
 	this.difficulty = 0;
 
