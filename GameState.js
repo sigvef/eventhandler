@@ -53,7 +53,7 @@ GameState.prototype.resume = function(){
 }
 
 GameState.prototype.randomEvent = function() {
-	var result = Math.floor((Math.random()*this.events.length)+1);
+	var result = Math.floor((Math.random()*this.events.length-1)+1);
 	var something = this.events[result];
 	return something;
 }
