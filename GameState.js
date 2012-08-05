@@ -152,7 +152,7 @@ GameState.prototype.render = function(ctx){
             ctx.fillStyle = "#e19400";
             ctx.globalCompositeOperation = "lighter";
         if(this.points > 20){
-            var height = (this.points-20)*0.1/16*9 + 0.01*Math.sin(songTime*2*Math.PI/0.48);
+            var height = (this.points-20)*0.01/16*9 + 0.01*Math.sin(songTime*2*Math.PI/0.48);
             ctx.fillRect(15.5*GU-(height/2)*14.5*GU, 0.5*GU,(height/2)*14.5*GU,0.2*GU);
             ctx.fillRect(15.5*GU,0.5*GU, 0.2*GU,8*GU);
         }else{
@@ -175,8 +175,8 @@ GameState.prototype.update = function(){
 		sm.changeState("mainmenu");
 	}
 
-	this.bgX = ((this.difficulty*this.difficulty/2+GU)/100+this.bgX)%this.bgtile.width;
-	this.bgY = ((this.difficulty*this.difficulty/2+GU)/100+this.bgY)%this.bgtile.height;
+	this.bgX = ((this.difficulty/2+GU)/100+this.bgX)%this.bgtile.width;
+	this.bgY = ((this.difficulty/2+GU)/100+this.bgY)%this.bgtile.height;
 	
 	if(this.delta++ >= this.difficultyRating) {
 		this.event_name = this.randomEvent();
