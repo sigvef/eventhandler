@@ -38,6 +38,7 @@ function bootstrap(){
 	ctx = canvas.getContext("2d");
 	sm = new StateManager();
 	mm = new MusicManager();
+	sfxm = new SFXManager();
 	dt = 0;
 	t = 0;
 	time = +new Date();

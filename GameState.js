@@ -14,11 +14,11 @@ function GameState(){
 	this.delta = 0;
 	
 	this.events = new Array("click",
-				"doubleclick",
+				"dblclick",
 				"cut",
 				"paste",
 				"copy",
-				"refresh",
+				"beforeunload",
 				"resize",
 				"keypress");
 							
@@ -130,6 +130,7 @@ GameState.prototype.update = function(){
 		this.objects[i].update();
 		if(this.objects[i].isComplete){
 			/* TODO: give player points or something */
+			sfxm.playRandom();
 			Array.remove(this.objects,i--);
 		} else if(this.objects[i].timeleft <= 0){
 			/* TODO: the player loses a life or the game */
