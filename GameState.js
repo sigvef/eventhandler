@@ -10,23 +10,28 @@ function GameState(){
 	this.x = 0;
 	this.y = 0;
 
+	this.event_name = "..";
+
 	this.bgtile = new Image();
 	
 	this.difficulty = 0;
 
 	this.event_name = "..";
 	this.delta = 0;
+
+	this.points = 0;
 	
-	this.events = new Array("click",
+	this.events = ["click",
 				"dblclick",
 				"cut",
 				"paste",
 				"copy",
 				"beforeunload",
 				"resize",
-				"keypress");
+				"keypress"];
 							
-	this.objects = new Array();
+	this.objects = [];
+	this.OSDObjects = [];
 }
 
 GameState.prototype.init = function(){
@@ -99,6 +104,17 @@ GameState.prototype.resume = function(){
 	for(var i in this.winlisteners){
 		window.addEventListener(i,this.winlisteners[i]);
 	}
+
+	// Reset a bunch of variables
+	this.objects = [];
+	this.OSDObjects = [];
+	this.bgX = 0;
+	this.bgY = 0;
+	this.delta = 0;
+	this.difficulty = 0;
+	this.x = 0;
+	this.y = 0;
+	this.points = 0;
 }
 
 GameState.prototype.randomEvent = function() {
@@ -135,6 +151,7 @@ GameState.prototype.render = function(ctx){
 	*/
 	
 	for(var x in this.objects) this.objects[x].render(ctx);
+	for(var x in this.OSDObjects) this.OSDObjects[x].render(ctx);
 }
 
 GameState.prototype.update = function(){
@@ -152,17 +169,28 @@ GameState.prototype.update = function(){
 		this.objects.push(eo);
 		this.delta = 0;
 	}
-	
+
+	for(var i=0;i<this.OSDObjects.length;i++){
+		this.OSDObjects[i].update();
+		if(this.OSDObjects[i].timeleft <= 0){
+			Array.remove(this.OSDObjects,i--);
+		}
+	}
 	for(var i=0;i<this.objects.length;i++){
 		this.objects[i].update();
 		if(this.objects[i].isComplete){
 			/* TODO: give player points or something */
 			sfxm.playRandom();
 			this.difficulty++;
+			this.points++;
+			if(this.points % 5 == 0){
+				this.OSDObjects.push(new OSDObject(8,4.5, 100, this.points+" points!"));
+			}
 			Array.remove(this.objects,i--);
 		} else if(this.objects[i].timeleft <= 0){
 			/* TODO: the player loses a life or the game */
 			Array.remove(this.objects,i--);
 		}
 	}
+
 }
