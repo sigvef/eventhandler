@@ -45,12 +45,6 @@ GameState.prototype.init = function(){
 		"resize": function(e){for(var i in that.objects){if(that.objects[i].type=="resize"){ that.objects[i].complete();break;}}}
 	};
 
-	for(var i in this.doclisteners){
-		document.addEventListener(i,this.doclisteners[i]);
-	}
-	for(var i in this.winlisteners){
-		window.addEventListener(i,this.winlisteners[i]);
-	}
 
 	//document.addEventListener("mousedown", function(e) {
 		/*that.x = e.clientX - canvas.offsetLeft;
@@ -92,7 +86,12 @@ GameState.prototype.resume = function(){
 	mm.changeState("game");
 	
 	// Resume event listeners
-	this.init();
+	for(var i in this.doclisteners){
+		document.addEventListener(i,this.doclisteners[i]);
+	}
+	for(var i in this.winlisteners){
+		window.addEventListener(i,this.winlisteners[i]);
+	}
 }
 
 GameState.prototype.randomEvent = function() {
