@@ -26,7 +26,7 @@ function GameState(){
 				"cut",
 				"paste",
 				"copy",
-				"beforeunload",
+				"load",
 				"resize",
 				"keypress"];
 							
@@ -47,13 +47,13 @@ GameState.prototype.init = function(){
 	this.doclisteners = {
 		"click": function(e){for(var i in that.objects){if(that.objects[i].type=="click"){that.objects[i].complete();break;}}},
 		"dblclick": function(e){for(var i in that.objects){if(that.objects[i].type=="dblclick"){that.objects[i].complete();break;}}},
-		"cut": function(e){for(var i in that.objects){if(that.objects[i].type=="cut"){that.objects[i].complete();break;}}},
-		"paste": function(e){for(var i in that.objects){if(that.objects[i].type=="paste"){that.objects[i].complete();break;}}},
-		"copy": function(e){for(var i in that.objects){if(that.objects[i].type=="copy"){that.objects[i].complete();break;}}},
 		"keypress": function(e){for(var i in that.objects){if(that.objects[i].type=="keypress"){ that.objects[i].complete();break;}}},
 	};
 	this.winlisteners = {
-		"beforeunload": function(e){for(var i in that.objects){if(that.objects[i].type=="beforeunload"){ that.objects[i].complete();break;}}return "Good, now cancel the refresh to continue!"},
+		"cut": function(e){for(var i in that.objects){if(that.objects[i].type=="cut"){that.objects[i].complete();break;}}},
+		"paste": function(e){for(var i in that.objects){if(that.objects[i].type=="paste"){that.objects[i].complete();break;}}},
+		"copy": function(e){for(var i in that.objects){if(that.objects[i].type=="copy"){that.objects[i].complete();break;}}},
+		"load": function(e){for(var i in that.objects){if(that.objects[i].type=="load"){ that.objects[i].complete();break;}}return "Good, now cancel the refresh to continue!"},
 		"resize": function(e){for(var i in that.objects){if(that.objects[i].type=="resize"){ that.objects[i].complete();break;}}}
 	};
 
@@ -92,11 +92,22 @@ GameState.prototype.pause = function(){
 	for(var i in this.winlisteners){
 		window.removeEventListener(i,this.winlisteners[i]);
 	}
+
+    this.cutpastehack.outerHTML = "";
 }
 GameState.prototype.resume = function(){
 	// Accept game state
 	mm.changeState("game");
 	
+    this.cutpastehack = document.createElement("textarea");
+    this.cutpastehack.value = "cut paste area!";
+    this.cutpastehack.style.position = "fixed";
+    this.cutpastehack.style.bottom = "0";
+    this.cutpastehack.style.left= "0";
+    this.cutpastehack.style.background = "rgba(0,0,0,0.5)";
+    this.cutpastehack.style.color = "white";
+    document.body.appendChild(this.cutpastehack);
+
 	// Resume event listeners
 	for(var i in this.doclisteners){
 		document.addEventListener(i,this.doclisteners[i]);
@@ -154,6 +165,7 @@ GameState.prototype.render = function(ctx){
 }
 
 GameState.prototype.update = function(){
+    this.cutpastehack.focus();
 	if(KEYS[27]){
 		sm.changeState("mainmenu");
 	}
