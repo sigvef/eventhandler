@@ -192,11 +192,12 @@ GameState.prototype.update = function(){
 		this.objects[i].update();
 		if(this.objects[i].isComplete){
 			/* TODO: give player points or something */
-			sfxm.playRandom();
+			sfxm.playRandomAnnouncer();
 			this.difficulty++;
 			this.points++;
 			if(this.points % 5 == 0){
 				this.OSDObjects.push(new OSDObject(8,4.5, 100, this.points+" points!"));
+				sfxm.play("levelup");
 			}
 			Array.remove(this.objects,i--);
 		} else if(this.objects[i].timeleft <= 0){
