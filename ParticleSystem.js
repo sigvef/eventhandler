@@ -43,7 +43,7 @@ ParticleSystem.prototype.render = function(ctx){
 
 ParticleSystem.prototype.explode = function(x,y){
     for(var i=0;i<50;i++){
-        if(this.num_particles>=this.particles.length) return;
+        if(this.num_particles>=511) return;
         this.num_particles++;
         var p = this.particles[this.num_particles];
         p.x = x;
