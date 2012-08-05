@@ -46,12 +46,6 @@ function bootstrap(){
 	document.addEventListener("keyup",function(e){
 		KEYS[e.keyCode] = false;
 	});
-	
-	// mouse functions
-	document.addEventListener("mousedown",function(e) {
-		x = e.clientX - canvas.offsetLeft;
-		y = e.clientY - canvas.offsetTop;
-	});
 
 	/* add game states here */
 	sm.addState("mainmenu", new MainMenuState());
