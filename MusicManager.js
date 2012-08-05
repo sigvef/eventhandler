@@ -1,10 +1,13 @@
 function MusicManager(){
 	this.music = new Audio();
-	this.music.addEventListener("loadeddata", function(){this.play()});
-    if(this.music.canPlayType("ogg")){
-        this.music.src = "audio/music.ogg";
-    }else if(this.music.canPlayType("mp3")){
+    this.loaded = false;
+    var that = this;
+	this.music.addEventListener("loadeddata", function(){that.loaded = true;this.play()});
+	this.music.addEventListener("canplay", function(){that.loaded = true;this.play()});
+    if(this.music.canPlayType("mp3")){
         this.music.src = "audio/music.mp3";
+    }else{
+        this.music.src = "audio/music.ogg";
     }
 	this.state = "menu";
 	this.musictimes = {
@@ -24,13 +27,15 @@ MusicManager.prototype.changeState = function(state){
 }
 
 MusicManager.prototype.update = function(){
-	if(this.state == "menu" && this.music.currentTime > this.musictimes.menuend){
-		this.music.currentTime -= this.musictimes.menulength;
-	}else if(this.state == "game" && this.music.currentTime < this.musictimes.gamestart){
-		this.music.currentTime = this.musictimes.gamestart;
-	}
-	else if(this.music.currentTime > this.musictimes.gameend){
-		this.music.currentTime -= this.musictimes.gamelength;
-	}
+    if(this.loaded){
+        if(this.state == "menu" && this.music.currentTime > this.musictimes.menuend){
+            this.music.currentTime -= this.musictimes.menulength;
+        }else if(this.state == "game" && this.music.currentTime < this.musictimes.gamestart){
+            this.music.currentTime = this.musictimes.gamestart;
+        }
+        else if(this.music.currentTime > this.musictimes.gameend){
+            this.music.currentTime -= this.musictimes.gamelength;
+        }
+    }
 }
 
