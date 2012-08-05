@@ -13,15 +13,14 @@ MainMenuState.prototype.init = function(){
 	this.pbY = 0;
 }
 MainMenuState.prototype.pause= function(){
-	for(var i in this.eventlisteners){
-		document.removeEventListener(this.eventlisteners[i]);
-	}
+	document.removeEventListener("click",this.clicklistener);
 }
 MainMenuState.prototype.resume= function(){
 	mm.changeState("menu");
-	this.eventlisteners.push(document.addEventListener("click",function(){
+	this.clicklistener = function(){
 		sm.changeState("game");
-	}));
+	};
+	document.addEventListener("click",this.clicklistener);
 }
 
 MainMenuState.prototype.render = function(ctx){
