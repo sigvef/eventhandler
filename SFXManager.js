@@ -4,13 +4,14 @@ function SFXManager(){
 	for(var i in this.announcerSfxs){
 		var sound = new Audio();
 		sound.src = "audio/announcer/"+this.announcerSfxs[i]+".wav";
-		this.announcerSounds[this.annoucerSfxs[i]] = sound;
+		this.announcerSounds[this.announcerSfxs[i]] = sound;
 	}
 	this.sfxs = "levelup".split(" ");
 	this.sounds = {};
 	for(var i in this.sfxs){
 		var sound = new Audio();
-		sound.src = "audio/"+this.sfxs[i]+".wav";
+		sound.src = "audio/"+this.sfxs[i]+".ogg";
+        sound.volume = 0.6;
 		this.sounds[this.sfxs[i]] = sound;
 	}
 }
