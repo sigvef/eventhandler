@@ -7,22 +7,20 @@ Array.remove = function(array, from, to) {
 
 
 function GameState(){
-	this.x = 0;
-	this.y = 0;
-
 	this.event_name = "..";
-
 	this.bgtile = new Image();
     loaded++;
     this.bgtile.onload = function(){ loaded--; }
-	
-	this.difficulty = 0;
-
+	this.difficulty = 1;
+	this.difficultyIncrement = 2;
+	this.difficultyRating = 100;
+	this.difficultyTimer = 300;
+	this.gt = +new Date();
+	this.dgt = 0;
+	this.ogt = +new Date();
 	this.event_name = "..";
 	this.delta = 0;
-
 	this.points = 0;
-	
 	this.events = ["click",
 				"dblclick",
 				"mousewheel",
@@ -33,7 +31,6 @@ function GameState(){
 				"beforeunload",
 				"resize",
 				"keypress"];
-							
 	this.objects = [];
 	this.OSDObjects = [];
     this.ps = new ParticleSystem();
@@ -63,33 +60,6 @@ GameState.prototype.init = function(){
 		"beforeunload": function(e){for(var i in that.objects){if(that.objects[i].type=="beforeunload"){ that.objects[i].complete();break;}}var m="Good, now cancel the refresh to continue!";e=e||window.event;if(e)e.returnValue=m;return m},
 		"resize": function(e){for(var i in that.objects){if(that.objects[i].type=="resize"){ that.objects[i].complete();break;}}}
 	};
-
-
-	//document.addEventListener("mousedown", function(e) {
-		/*that.x = e.clientX - canvas.offsetLeft;
-		that.y = e.clientY - canvas.offsetTop;
-		that.event_name = "mousedown";
-		that.delta = 0;*/
-	//});
-	
-	//document.addEventListener("mouseup", function(e) {
-		/*that.x = e.clientX - canvas.offsetLeft;
-		that.y = e.clientY - canvas.offsetTop;
-		that.event_name = "mouseup";
-		that.delta = 0;*/
-	//});
-	
-	//document.addEventListener("keydown", function(e) {
-		/*KEYS[e.keyCode] = true;
-		that.event_name = "keydown";
-		that.delta = 0;*/
-	//});
-	
-	//document.addEventListener("keyup", function(e) {
-		/*KEYS[e.keyCode] = false;
-		that.event_name = "keyup";
-		that.delta = 0;*/
-	//});
 }
 GameState.prototype.pause = function(){
 	// Remove event listeners
@@ -144,6 +114,15 @@ GameState.prototype.randomEvent = function() {
 	return something;
 }
 
+GameState.prototype.increaseDifficulty = function() {
+	this.difficulty += this.difficultyIncrement++;
+	this.difficultyRating = 100-(Math.floor(Math.log(this.difficulty*256)*4));
+	
+	if(this.dgt <= 0) this.dgt = 1;
+	this.difficultyTimer += Math.floor(Math.log(this.dgt)/2);
+	this.dgt = 0;
+}
+
 GameState.prototype.render = function(ctx){
 	ctx.save();
 	ctx.translate(8*GU,4.5*GU);
@@ -163,12 +142,6 @@ GameState.prototype.render = function(ctx){
 	ctx.restore();
 	ctx.fillStyle = "white";
 	ctx.font = (GU/2)+"px BebasNeue";
-	/*
-	ctx.fillText("Hello, Event Handler! I know your job is tough...",2*GU,4*GU);
-	ctx.fillText("But someone has to do it.",2*GU,5*GU);
-	ctx.fillText("Time between events: " + this.delta, 10*GU, 7*GU);
-	ctx.fillText("Event: " + this.event_name + ".", 10*GU, 8*GU);
-	*/
 	
 	for(var x in this.objects) this.objects[x].render(ctx);
     this.ps.render(ctx);
@@ -192,6 +165,11 @@ GameState.prototype.render = function(ctx){
 
 GameState.prototype.update = function(){
     this.ps.update();
+	// Timer
+	this.gt = +new Date();
+	this.dgt += (this.gt-this.ogt);
+	this.ogt = this.gt;
+	
     this.cutpastehack.focus();
 	if(KEYS[27]){
 		sm.changeState("mainmenu");
@@ -200,10 +178,9 @@ GameState.prototype.update = function(){
 	this.bgX = ((this.difficulty*this.difficulty/2+GU)/100+this.bgX)%this.bgtile.width;
 	this.bgY = ((this.difficulty*this.difficulty/2+GU)/100+this.bgY)%this.bgtile.height;
 	
-	if(this.delta++ >= 100-10*Math.sqrt(this.difficulty)) {
+	if(this.delta++ >= this.difficultyRating) {
 		this.event_name = this.randomEvent();
-		var random = Math.floor((Math.random()*500)+1);
-		var eo = new EventObject(1+Math.random()*14,1+Math.random()*6,300,this.event_name);
+		var eo = new EventObject(1+Math.random()*14,1+Math.random()*6,this.difficultyTimer,this.event_name);
 		this.objects.push(eo);
 		this.delta = 0;
 	}
@@ -220,7 +197,7 @@ GameState.prototype.update = function(){
 			/* TODO: give player points or something */
 			sfxm.playRandomAnnouncer();
             this.ps.explode(this.objects[i].x,this.objects[i].y);
-			this.difficulty++;
+			this.increaseDifficulty();
 			this.points++;
 			if(this.points % 5 == 0){
 				this.OSDObjects.push(new OSDObject(8,4.5, 100, this.points+" points!"));
