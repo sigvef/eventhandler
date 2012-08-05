@@ -8,8 +8,8 @@ function MusicManager(){
 		menuend: 15.36,
 		menulength: 15.36,
 		gamestart:21.12,
-		gameend:109.84,
-		gamelength: 108.84-23.04
+		gameend:120+10.56,
+		gamelength: 120+10.56-23.04
 
 	}
 }

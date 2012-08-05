@@ -35,10 +35,16 @@ MainMenuState.prototype.render = function(ctx){
 		}
 	}
 
+	/*
 	ctx.save();
 	ctx.translate(8*GU,4.5*GU);
 	ctx.scale(0.01*GU, 0.01*GU);
 	ctx.drawImage(this.playbutton, -this.playbutton.width/2,-this.playbutton.height/2);
+	ctx.restore();
+	*/
+	ctx.save();
+	ctx.scale(canvas.width/1920, canvas.width/1920);
+	ctx.drawImage(this.playbutton,0,0);
 	ctx.restore();
 }
 

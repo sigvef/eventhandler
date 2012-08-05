@@ -14,6 +14,7 @@ function GameState(){
 }
 
 GameState.prototype.init = function(){
+	EventObject.prototype.load();
 	var that = this;
 	//that.x = 0;
 	//that.y = 0;
@@ -50,6 +51,7 @@ GameState.prototype.init = function(){
 GameState.prototype.pause = function(){}
 GameState.prototype.resume = function(){
 	mm.changeState("game");
+	eo = new EventObject(2,2,300,"clickit");
 }
 
 GameState.prototype.randomEvent = function() {
@@ -67,9 +69,11 @@ GameState.prototype.render = function(ctx){
 	ctx.fillText("But someone has to do it.",2*GU,5*GU);
 	ctx.fillText("Time between events: " + this.delta, 10*GU, 7*GU);
 	ctx.fillText("Event: " + this.event_name + ".", 10*GU, 8*GU);
+	eo.render(ctx);
 }
 
 GameState.prototype.update = function(){
+	eo.update();
 	if(KEYS[27]){
 		sm.changeState("mainmenu");
 	}
