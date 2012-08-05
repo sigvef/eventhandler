@@ -23,6 +23,7 @@ function GameState(){
 	
 	this.events = ["click",
 				"dblclick",
+				"mousewheel",
 				"contextmenu",
 				"cut",
 				"paste",
@@ -48,6 +49,7 @@ GameState.prototype.init = function(){
 	this.doclisteners = {
 		"click": function(e){for(var i in that.objects){if(that.objects[i].type=="click"){that.objects[i].complete();break;}}},
 		"dblclick": function(e){for(var i in that.objects){if(that.objects[i].type=="dblclick"){that.objects[i].complete();break;}}},
+		"mousewheel": function(e){for(var i in that.objects){if(that.objects[i].type=="mousewheel"){that.objects[i].complete();break;}}},
 		"contextmenu": function(e){for(var i in that.objects){if(that.objects[i].type=="contextmenu"){that.objects[i].complete();break;}}},
 		"keypress": function(e){for(var i in that.objects){if(that.objects[i].type=="keypress"){ that.objects[i].complete();break;}}},
 	};
