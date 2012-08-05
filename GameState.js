@@ -4,7 +4,9 @@ function GameState(){
 
 GameState.prototype.init = function(){}
 GameState.prototype.pause= function(){}
-GameState.prototype.resume= function(){}
+GameState.prototype.resume= function(){
+	mm.changeState("game");
+}
 
 GameState.prototype.render = function(ctx){
 	ctx.fillStyle = "white";

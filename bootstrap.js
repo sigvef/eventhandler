@@ -16,6 +16,7 @@ function loop(){
     old_time = t;
     while(dt>20){
         sm.update();
+	mm.update();
         dt-= 20;
     }
     /* clearing canvas */
@@ -30,6 +31,7 @@ function bootstrap(){
 	canvas = document.createElement("canvas");
 	ctx = canvas.getContext("2d");
 	sm = new StateManager();
+	mm = new MusicManager();
 	dt = 0;
 	t = 0;
 	time = +new Date();

@@ -8,15 +8,17 @@ MainMenuState.prototype.init = function(){
 	this.bgY = 0;
 }
 MainMenuState.prototype.pause= function(){}
-MainMenuState.prototype.resume= function(){}
+MainMenuState.prototype.resume= function(){
+	mm.changeState("menu");
+}
 
 MainMenuState.prototype.render = function(ctx){
 	ctx.fillStyle = "white";
 	ctx.fillRect(0,0,16*GU,9*GU);
 
 	/* TODO: scale this, maybe? */ 
-	for(var x=0;x<17*GU;x+=this.bgtile.width){
-		for(var y=0;y<10*GU;y+=this.bgtile.height){
+	for(var x=0;x<16*GU+this.bgtile.width;x+=this.bgtile.width){
+		for(var y=0;y<9*GU+this.bgtile.width;y+=this.bgtile.height){
 			ctx.drawImage(this.bgtile,x-this.bgX,y-this.bgY);
 		}
 	}

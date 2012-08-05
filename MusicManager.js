@@ -1,0 +1,31 @@
+function MusicManager(){
+	this.music = new Audio();
+	this.music.addEventListener("loadeddata", function(){this.play()});
+	this.music.src = "audio/music.mp3";
+	this.state = "menu";
+	this.musictimes = {
+		menustart:7.68,
+		menuend: 15.36,
+		menulength: 15.36-7.68,
+		gamestart:21.12,
+		gameend:109.84,
+		gamelength: 108.84-23.04
+
+	}
+}
+
+MusicManager.prototype.changeState = function(state){
+	this.state = state;
+}
+
+MusicManager.prototype.update = function(){
+	if(this.state == "menu" && this.music.currentTime > this.musictimes.menuend){
+		this.music.currentTime -= this.musictimes.menulength;
+	}else if(this.state == "game" && this.music.currentTime < this.musictimes.gamestart){
+		this.music.currentTime = this.musictimes.gamestart;
+	}
+	else if(this.music.currentTime > this.musictimes.gameend){
+		this.music.currentTime -= this.musictimes.gamelength;
+	}
+}
+
