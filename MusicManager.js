@@ -1,7 +1,11 @@
 function MusicManager(){
 	this.music = new Audio();
 	this.music.addEventListener("loadeddata", function(){this.play()});
-	this.music.src = "audio/music.mp3";
+    if(this.music.canPlayType("ogg")){
+        this.music.src = "audio/music.ogg";
+    }else if(this.music.canPlayType("mp3")){
+        this.music.src = "audio/music.mp3";
+    }
 	this.state = "menu";
 	this.musictimes = {
 		menustart:0,

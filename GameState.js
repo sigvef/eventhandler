@@ -124,7 +124,6 @@ GameState.prototype.randomEvent = function() {
 }
 
 GameState.prototype.render = function(ctx){
-
 	ctx.save();
 	ctx.translate(8*GU,4.5*GU);
 	var scaler = 1+0.01*Math.sin(songTime*Math.PI*2/0.48);
@@ -192,5 +191,4 @@ GameState.prototype.update = function(){
 			Array.remove(this.objects,i--);
 		}
 	}
-
 }

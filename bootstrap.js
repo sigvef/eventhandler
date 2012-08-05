@@ -23,9 +23,9 @@ function loop(){
     old_time = t;
     songTime = mm.music.currentTime;
     while(dt>20){
-	missedGFXFrames++;
+        missedGFXFrames++;
         sm.update();
-	mm.update();
+        mm.update();
         dt-= 20;
     }
     /* clearing canvas */
