@@ -1,9 +1,9 @@
 function SFXManager(){
-	this.sfxs = "great awesome nice sweet".split(" ");
+	this.sfxs = "exelentmonster".split(" ");
 	this.sounds = {};
 	for(var i in this.sfxs){
 		var sound = new Audio();
-		sound.src = "audio/"+this.sfxs[i]+".ogg";	
+		sound.src = "audio/announcer/"+this.sfxs[i]+".wav";
 		this.sounds[this.sfxs[i]] = sound;
 	}
 }
