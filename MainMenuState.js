@@ -24,7 +24,10 @@ MainMenuState.prototype.resume= function(){
         mm.music.play();
 		sm.changeState("game");
 	};
-	document.addEventListener("click",this.clicklistener);
+    var that = this;
+    setTimeout(function(){
+        document.addEventListener("click",that.clicklistener);
+    }, 500);
 }
 
 MainMenuState.prototype.render = function(ctx){
@@ -63,10 +66,6 @@ MainMenuState.prototype.render = function(ctx){
 }
 
 MainMenuState.prototype.update = function(){
-	if(KEYS[13]){
-		sm.changeState("game");
-	}	
-
 	this.bgX = (GU/100+this.bgX)%this.bgtile.width;
 	this.bgY = (GU/100+this.bgY)%this.bgtile.height;
 }
