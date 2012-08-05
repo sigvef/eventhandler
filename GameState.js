@@ -5,20 +5,18 @@ function GameState(){
 	this.event_name = "..";
 	this.delta = 0;
 	
-	this.events = new Array("mousedown", 
-							"mouseup",
-							"keyup",
-							"keydown",
-							"rightclick",
-							"something");
+	this.events = new Array("click",
+							"cut",
+							"refresh",
+							"resize",
+							"keypress");
+							
+	this.objects = new Array();
 }
 
 GameState.prototype.init = function(){
 	EventObject.prototype.load();
 	var that = this;
-	//that.x = 0;
-	//that.y = 0;
-	//that.event_name = "..";
 	that.delta = 0;
 	
 	// Event Listeners
@@ -48,10 +46,21 @@ GameState.prototype.init = function(){
 		that.delta = 0;*/
 	});
 }
-GameState.prototype.pause = function(){}
+GameState.prototype.pause = function(){
+	// Remove event listeners
+	document.removeEventListener("mousedown",this.clicklistener);
+	document.removeEventListener("mouseup",this.clicklistener);
+	document.removeEventListener("keydown",this.clicklistener);
+	document.removeEventListener("keyup",this.clicklistener);
+}
 GameState.prototype.resume = function(){
+	// Accept game state
 	mm.changeState("game");
+	
+	// Resume event listeners
+	this.init();
 	eo = new EventObject(2,2,300,"click");
+	this.objects.push(eo);
 }
 
 GameState.prototype.randomEvent = function() {
@@ -69,17 +78,22 @@ GameState.prototype.render = function(ctx){
 	ctx.fillText("But someone has to do it.",2*GU,5*GU);
 	ctx.fillText("Time between events: " + this.delta, 10*GU, 7*GU);
 	ctx.fillText("Event: " + this.event_name + ".", 10*GU, 8*GU);
-	eo.render(ctx);
+	
+	for(var x in this.objects) this.objects[x].render(ctx);
 }
 
 GameState.prototype.update = function(){
-	eo.update();
 	if(KEYS[27]){
 		sm.changeState("mainmenu");
 	}
 	
-	if(this.delta++ >= 100) {
-		this.event_name = GameState.prototype.randomEvent.call(this);
+	if(this.delta++ >= 50) {
+		this.event_name = this.randomEvent();
+		var random = Math.floor((Math.random()*500)+1);
+		eo = new EventObject(2,2,300,this.event_name);
+		this.objects.push(eo);
 		this.delta = 0;
 	}
+	
+	for(var x in this.objects) this.objects[x].update();
 }
