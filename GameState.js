@@ -34,6 +34,7 @@ function GameState(){
 							
 	this.objects = [];
 	this.OSDObjects = [];
+    this.ps = new ParticleSystem();
 }
 
 GameState.prototype.init = function(){
@@ -102,6 +103,8 @@ GameState.prototype.pause = function(){
 GameState.prototype.resume = function(){
 	// Accept game state
 	mm.changeState("game");
+
+    this.ps = new ParticleSystem();
 	
     this.cutpastehack = document.createElement("textarea");
     this.cutpastehack.value = "cut paste area, if you need it!";
@@ -157,7 +160,7 @@ GameState.prototype.render = function(ctx){
 	ctx.fillRect(0,0,canvas.width,canvas.height);
 	ctx.restore();
 	ctx.fillStyle = "white";
-	ctx.font = (GU/2)+"px Arial";
+	ctx.font = (GU/2)+"px BebasNeue";
 	/*
 	ctx.fillText("Hello, Event Handler! I know your job is tough...",2*GU,4*GU);
 	ctx.fillText("But someone has to do it.",2*GU,5*GU);
@@ -166,10 +169,12 @@ GameState.prototype.render = function(ctx){
 	*/
 	
 	for(var x in this.objects) this.objects[x].render(ctx);
+    this.ps.render(ctx);
 	for(var x in this.OSDObjects) this.OSDObjects[x].render(ctx);
 }
 
 GameState.prototype.update = function(){
+    this.ps.update();
     this.cutpastehack.focus();
 	if(KEYS[27]){
 		sm.changeState("mainmenu");
@@ -197,10 +202,17 @@ GameState.prototype.update = function(){
 		if(this.objects[i].isComplete){
 			/* TODO: give player points or something */
 			sfxm.playRandomAnnouncer();
+            this.ps.explode(this.objects[i].x,this.objects[i].y);
 			this.difficulty++;
 			this.points++;
 			if(this.points % 5 == 0){
 				this.OSDObjects.push(new OSDObject(8,4.5, 100, this.points+" points!"));
+                this.ps.explode(8,4.5);
+                this.ps.explode(8,4.5);
+                this.ps.explode(0,0);
+                this.ps.explode(16,0);
+                this.ps.explode(16,9);
+                this.ps.explode(0,9);
 				sfxm.play("levelup");
 			}
 			Array.remove(this.objects,i--);
