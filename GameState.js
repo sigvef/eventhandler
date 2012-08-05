@@ -51,7 +51,7 @@ GameState.prototype.init = function(){
 GameState.prototype.pause = function(){}
 GameState.prototype.resume = function(){
 	mm.changeState("game");
-	eo = new EventObject(2,2,300,"clickit");
+	eo = new EventObject(2,2,300,"click");
 }
 
 GameState.prototype.randomEvent = function() {

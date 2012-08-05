@@ -16,10 +16,10 @@ function EventObject(x,y,time, type){
 
 EventObject.prototype.load = function(){
 	var images = {};
-	var types = "clickit".split();
+	var types = "click cut refresh resize keypress".split(" ");
 	for(var i in types){
 		var image = new Image();
-		image.src = "gfx/"+types[i]+".png";
+		image.src = "gfx/events/"+types[i]+".png";
 		images[types[i]] = image;
 	}
 	EventObject.prototype.images = images;
