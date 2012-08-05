@@ -1,3 +1,4 @@
+
 /* smoothstep interpolaties between a and b, at time t from 0 to 1 */
 function smoothstep(a, b, t) {
 	var v = t * t * (3 - 2 * t);
@@ -67,7 +68,6 @@ function bootstrap(){
 	requestAnimFrame(loop);
 }
 
-/* TODO: implement this so that the game resizes with the browser on resize */
 function resize(e){
 	if(window.innerWidth/window.innerHeight > 16/9){
 		GU = (window.innerHeight/9);

@@ -1,3 +1,11 @@
+// Array Remove - By John Resig (MIT Licensed)
+Array.remove = function(array, from, to) {
+  var rest = array.slice((to || from) + 1 || array.length);
+  array.length = from < 0 ? array.length + from : from;
+  return array.push.apply(array, rest);
+};
+
+
 function GameState(){
 	this.x = 0;
 	this.y = 0;
@@ -6,10 +14,10 @@ function GameState(){
 	this.delta = 0;
 	
 	this.events = new Array("click",
-							"cut",
-							"refresh",
-							"resize",
-							"keypress");
+				"cut",
+				"refresh",
+				"resize",
+				"keypress");
 							
 	this.objects = new Array();
 }
@@ -20,38 +28,58 @@ GameState.prototype.init = function(){
 	that.delta = 0;
 	
 	// Event Listeners
-	document.addEventListener("mousedown", function(e) {
+	
+	this.doclisteners = {
+		"click": function(e){for(var i in that.objects){if(that.objects[i].type=="click"){that.objects[i].complete();break;}}},
+		"cut": function(e){for(var i in that.objects){if(that.objects[i].type=="cut"){that.objects[i].complete();break;}}},
+		"keypress": function(e){for(var i in that.objects){if(that.objects[i].type=="keypress"){ that.objects[i].complete();break;}}},
+	};
+	this.winlisteners = {
+		"beforeunload": function(e){for(var i in that.objects){if(that.objects[i].type=="refresh"){ that.objects[i].complete();break;}}return "Good, now cancel to continue!"},
+		"resize": function(e){for(var i in that.objects){if(that.objects[i].type=="resize"){ that.objects[i].complete();break;}}}
+	};
+
+	for(var i in this.doclisteners){
+		document.addEventListener(i,this.doclisteners[i]);
+	}
+	for(var i in this.winlisteners){
+		window.addEventListener(i,this.winlisteners[i]);
+	}
+
+	//document.addEventListener("mousedown", function(e) {
 		/*that.x = e.clientX - canvas.offsetLeft;
 		that.y = e.clientY - canvas.offsetTop;
 		that.event_name = "mousedown";
 		that.delta = 0;*/
-	});
+	//});
 	
-	document.addEventListener("mouseup", function(e) {
+	//document.addEventListener("mouseup", function(e) {
 		/*that.x = e.clientX - canvas.offsetLeft;
 		that.y = e.clientY - canvas.offsetTop;
 		that.event_name = "mouseup";
 		that.delta = 0;*/
-	});
+	//});
 	
-	document.addEventListener("keydown", function(e) {
+	//document.addEventListener("keydown", function(e) {
 		/*KEYS[e.keyCode] = true;
 		that.event_name = "keydown";
 		that.delta = 0;*/
-	});
+	//});
 	
-	document.addEventListener("keyup", function(e) {
+	//document.addEventListener("keyup", function(e) {
 		/*KEYS[e.keyCode] = false;
 		that.event_name = "keyup";
 		that.delta = 0;*/
-	});
+	//});
 }
 GameState.prototype.pause = function(){
 	// Remove event listeners
-	document.removeEventListener("mousedown",this.clicklistener);
-	document.removeEventListener("mouseup",this.clicklistener);
-	document.removeEventListener("keydown",this.clicklistener);
-	document.removeEventListener("keyup",this.clicklistener);
+	for(var i in this.doclisteners){
+		document.removeEventListener(i,this.doclisteners[i]);
+	}
+	for(var i in this.winlisteners){
+		window.removeEventListener(i,this.winlisteners[i]);
+	}
 }
 GameState.prototype.resume = function(){
 	// Accept game state
@@ -59,8 +87,6 @@ GameState.prototype.resume = function(){
 	
 	// Resume event listeners
 	this.init();
-	eo = new EventObject(2,2,300,"click");
-	this.objects.push(eo);
 }
 
 GameState.prototype.randomEvent = function() {
@@ -87,13 +113,22 @@ GameState.prototype.update = function(){
 		sm.changeState("mainmenu");
 	}
 	
-	if(this.delta++ >= 50) {
+	if(this.delta++ >= 100) {
 		this.event_name = this.randomEvent();
 		var random = Math.floor((Math.random()*500)+1);
-		var eo = new EventObject(2,2,300,this.event_name);
+		var eo = new EventObject(1+Math.random()*14,1+Math.random()*7,300,this.event_name);
 		this.objects.push(eo);
 		this.delta = 0;
 	}
 	
-	for(var x in this.objects) this.objects[x].update();
+	for(var i=0;i<this.objects.length;i++){
+		this.objects[i].update();
+		if(this.objects[i].isComplete){
+			/* TODO: give player points or something */
+			Array.remove(this.objects,i--);
+		} else if(this.objects[i].timeleft <= 0){
+			/* TODO: the player loses a life or the game */
+			Array.remove(this.objects,i--);
+		}
+	}
 }

@@ -5,6 +5,7 @@ function EventObject(x,y,time, type){
 	this.maxtime = time;
 	this.type = type;
 	this.image = this.images[type];
+	this.isComplete = false;
 	this.statetimes = {
 		instart:0,
 		inend: Math.min(40, this.timeleft/2),
@@ -27,7 +28,7 @@ EventObject.prototype.load = function(){
 
 
 EventObject.prototype.complete = function(){
-	this.timeleft = 0;
+	this.isComplete = true;
 }
 
 EventObject.prototype.update = function(){
@@ -72,6 +73,9 @@ EventObject.prototype.render = function(ctx){
 		ctx.translate(this.x*GU,this.y*GU);
 		ctx.scale(scaler*Math.min(1,(this.maxtime-this.timeleft)/this.statetimes.inend),Math.min(1,(this.maxtime-this.timeleft)/this.statetimes.inend)*scaler);
 		ctx.drawImage(this.image,-this.image.width/2,-this.image.height/2);
+		ctx.font = GU+"pt Arial";
+		ctx.textAlign = "center";
+		ctx.fillText(this.type.toUpperCase()+"!",0,5.5*GU);
 		ctx.restore();
 	}
 }
