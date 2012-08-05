@@ -2,7 +2,6 @@ function MainMenuState(){
 	this.bgtile = new Image();
 	this.playbutton = new Image();
 	this.eventlisteners = [];
-	this.overlay = new Image();
 }
 
 MainMenuState.prototype.init = function(){
@@ -12,7 +11,6 @@ MainMenuState.prototype.init = function(){
 	this.bgY = 0;
 	this.pbX = 0;
 	this.pbY = 0;
-	this.overlay.src = "gfx/overlay.png";
 }
 MainMenuState.prototype.pause= function(){
 	document.removeEventListener("click",this.clicklistener);
@@ -46,7 +44,6 @@ MainMenuState.prototype.render = function(ctx){
 	ctx.save();
 	ctx.scale(canvas.width/1920, canvas.width/1920);
 	ctx.drawImage(this.playbutton,0,0);
-	ctx.drawImage(this.overlay,0,0);
 	ctx.restore();
 }
 

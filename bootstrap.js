@@ -70,6 +70,9 @@ function bootstrap(){
 	scanlinecanvas = document.createElement("canvas");
 	scanlinectx = scanlinecanvas.getContext("2d");
 	
+	overlay = new Image();
+	overlay.src = "gfx/overlay.png";
+
 	sm = new StateManager();
 	mm = new MusicManager();
 	sfxm = new SFXManager();
@@ -127,6 +130,10 @@ function resize(e){
 		scanlinectx.fillRect(0,i*GU+0.6*GU,16*GU,0.1*GU);
 		scanlinectx.fillRect(0,i*GU+0.8*GU,16*GU,0.1*GU);
 	}
+	    scanlinectx.save();
+	    scanlinectx.scale(16*GU/1920,16*GU/1920);
+	scanlinectx.drawImage(overlay,0,0);
+	    scanlinectx.restore();
 }
 
 window.onresize = resize;
