@@ -171,6 +171,21 @@ GameState.prototype.render = function(ctx){
 	for(var x in this.objects) this.objects[x].render(ctx);
     this.ps.render(ctx);
 	for(var x in this.OSDObjects) this.OSDObjects[x].render(ctx);
+
+    if(this.points){
+            ctx.save();
+            ctx.fillStyle = "#e19400";
+            ctx.globalCompositeOperation = "lighter";
+        if(this.points > 20){
+            var height = (this.points-20)*0.1/16*9 + 0.01*Math.sin(songTime*2*Math.PI/0.48);
+            ctx.fillRect(15.5*GU-(height/2)*14.5*GU, 0.5*GU,(height/2)*14.5*GU,0.2*GU);
+            ctx.fillRect(15.5*GU,0.5*GU, 0.2*GU,8*GU);
+        }else{
+            var height = this.points*0.1 + 0.01*Math.sin(songTime*2*Math.PI/0.48);
+            ctx.fillRect(15.5*GU,0.5*GU+(1-height/2)*8*GU, 0.2*GU,(height/2)*8*GU);
+        }
+            ctx.restore();
+    }
 }
 
 GameState.prototype.update = function(){
