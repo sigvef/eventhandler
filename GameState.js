@@ -90,7 +90,7 @@ GameState.prototype.update = function(){
 	if(this.delta++ >= 50) {
 		this.event_name = this.randomEvent();
 		var random = Math.floor((Math.random()*500)+1);
-		eo = new EventObject(2,2,300,this.event_name);
+		var eo = new EventObject(2,2,300,this.event_name);
 		this.objects.push(eo);
 		this.delta = 0;
 	}

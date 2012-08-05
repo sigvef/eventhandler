@@ -68,10 +68,10 @@ EventObject.prototype.render = function(ctx){
 
 		var scaler = 0.25;
 
+		ctx.save();
 		ctx.translate(this.x*GU,this.y*GU);
 		ctx.scale(scaler*Math.min(1,(this.maxtime-this.timeleft)/this.statetimes.inend),Math.min(1,(this.maxtime-this.timeleft)/this.statetimes.inend)*scaler);
-		/* random magic numbers */
 		ctx.drawImage(this.image,-this.image.width/2,-this.image.height/2);
-		//ctx.drawImage(this.image,GU/scaler+this.x*GU - this.image.width/2, GU/scaler + this.y*GU - this.image.height/2);
+		ctx.restore();
 	}
 }
