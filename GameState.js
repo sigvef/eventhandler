@@ -9,6 +9,8 @@ Array.remove = function(array, from, to) {
 function GameState(){
 	this.x = 0;
 	this.y = 0;
+
+	this.bgtile = new Image();
 	
 	this.event_name = "..";
 	this.delta = 0;
@@ -26,6 +28,9 @@ function GameState(){
 }
 
 GameState.prototype.init = function(){
+	this.bgtile.src = "gfx/gamebgtile.gif";
+	this.bgX = 0;
+	this.bgY = 0;
 	EventObject.prototype.load();
 	var that = this;
 	that.delta = 0;
@@ -101,8 +106,21 @@ GameState.prototype.randomEvent = function() {
 }
 
 GameState.prototype.render = function(ctx){
-	ctx.fillStyle = "blue";
-	ctx.fillRect(0,0,16*GU,9*GU);
+
+	for(var x=0;x<16*GU+this.bgtile.width;x+=this.bgtile.width){
+		for(var y=0;y<9*GU+this.bgtile.width;y+=this.bgtile.height){
+			ctx.drawImage(this.bgtile,x-this.bgX,y-this.bgY);
+		}
+	}
+	ctx.save();
+	ctx.globalCompositeOperation="lighter";
+	ctx.globalAlpha = 1-(songTime/0.48-Math.floor(songTime/0.48));
+	for(var x=0;x<16*GU+this.bgtile.width;x+=this.bgtile.width){
+		for(var y=0;y<9*GU+this.bgtile.width;y+=this.bgtile.height){
+			ctx.drawImage(this.bgtile,x-this.bgX,y-this.bgY);
+		}
+	}
+	ctx.restore();
 	ctx.fillStyle = "white";
 	ctx.font = (GU/2)+"px Arial";
 	ctx.fillText("Hello, Event Handler! I know your job is tough...",2*GU,4*GU);
@@ -117,6 +135,9 @@ GameState.prototype.update = function(){
 	if(KEYS[27]){
 		sm.changeState("mainmenu");
 	}
+
+	this.bgX = (GU/100+this.bgX)%this.bgtile.width;
+	this.bgY = (GU/100+this.bgY)%this.bgtile.height;
 	
 	if(this.delta++ >= 100) {
 		this.event_name = this.randomEvent();

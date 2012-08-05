@@ -20,6 +20,7 @@ function loop(){
     t = +new Date();
     dt += (t-old_time);
     old_time = t;
+    songTime = mm.music.currentTime;
     while(dt>20){
         sm.update();
 	mm.update();
