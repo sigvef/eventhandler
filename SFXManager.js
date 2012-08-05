@@ -10,7 +10,8 @@ function SFXManager(){
 	this.sounds = {};
 	for(var i in this.sfxs){
 		var sound = new Audio();
-		sound.src = "audio/"+this.sfxs[i]+".wav";
+		sound.src = "audio/"+this.sfxs[i]+".ogg";
+        sound.volume = 0.6;
 		this.sounds[this.sfxs[i]] = sound;
 	}
 }
