@@ -17,7 +17,7 @@ function EventObject(x,y,time, type){
 
 EventObject.prototype.load = function(){
 	var images = {};
-	var types = "click cut refresh resize keypress".split(" ");
+	var types = "dblclick click cut beforeunload resize keypress copy paste".split(" ");
 	for(var i in types){
 		var image = new Image();
 		image.src = "gfx/events/"+types[i]+".png";

@@ -14,7 +14,10 @@ function GameState(){
 	this.delta = 0;
 	
 	this.events = new Array("click",
+				"doubleclick",
 				"cut",
+				"paste",
+				"copy",
 				"refresh",
 				"resize",
 				"keypress");
@@ -31,11 +34,14 @@ GameState.prototype.init = function(){
 	
 	this.doclisteners = {
 		"click": function(e){for(var i in that.objects){if(that.objects[i].type=="click"){that.objects[i].complete();break;}}},
+		"dblclick": function(e){for(var i in that.objects){if(that.objects[i].type=="dblclick"){that.objects[i].complete();break;}}},
 		"cut": function(e){for(var i in that.objects){if(that.objects[i].type=="cut"){that.objects[i].complete();break;}}},
+		"paste": function(e){for(var i in that.objects){if(that.objects[i].type=="paste"){that.objects[i].complete();break;}}},
+		"copy": function(e){for(var i in that.objects){if(that.objects[i].type=="copy"){that.objects[i].complete();break;}}},
 		"keypress": function(e){for(var i in that.objects){if(that.objects[i].type=="keypress"){ that.objects[i].complete();break;}}},
 	};
 	this.winlisteners = {
-		"beforeunload": function(e){for(var i in that.objects){if(that.objects[i].type=="refresh"){ that.objects[i].complete();break;}}return "Good, now cancel to continue!"},
+		"beforeunload": function(e){for(var i in that.objects){if(that.objects[i].type=="beforeunload"){ that.objects[i].complete();break;}}return "Good, now cancel the refresh to continue!"},
 		"resize": function(e){for(var i in that.objects){if(that.objects[i].type=="resize"){ that.objects[i].complete();break;}}}
 	};
 
