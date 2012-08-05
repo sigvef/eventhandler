@@ -26,7 +26,7 @@ function GameState(){
 				"cut",
 				"paste",
 				"copy",
-				"load",
+				"beforeunload",
 				"resize",
 				"keypress"];
 							
@@ -53,7 +53,7 @@ GameState.prototype.init = function(){
 		"cut": function(e){for(var i in that.objects){if(that.objects[i].type=="cut"){that.objects[i].complete();break;}}},
 		"paste": function(e){for(var i in that.objects){if(that.objects[i].type=="paste"){that.objects[i].complete();break;}}},
 		"copy": function(e){for(var i in that.objects){if(that.objects[i].type=="copy"){that.objects[i].complete();break;}}},
-		"load": function(e){for(var i in that.objects){if(that.objects[i].type=="load"){ that.objects[i].complete();break;}}return "Good, now cancel the refresh to continue!"},
+		"beforeunload": function(e){for(var i in that.objects){if(that.objects[i].type=="beforeunload"){ that.objects[i].complete();break;}}var m="Good, now cancel the refresh to continue!";e=e||window.event;if(e)e.returnValue=m;return m},
 		"resize": function(e){for(var i in that.objects){if(that.objects[i].type=="resize"){ that.objects[i].complete();break;}}}
 	};
 
@@ -102,6 +102,7 @@ GameState.prototype.resume = function(){
     this.cutpastehack = document.createElement("textarea");
     this.cutpastehack.value = "cut paste area, if you need it!";
     this.cutpastehack.style.position = "fixed";
+    this.cutpastehack.style.zIndex = "99999";
     this.cutpastehack.style.bottom = "0";
     this.cutpastehack.style.left= "0";
     this.cutpastehack.style.background = "rgba(0,0,0,0.5)";
@@ -170,10 +171,10 @@ GameState.prototype.update = function(){
 		sm.changeState("mainmenu");
 	}
 
-	this.bgX = ((this.difficulty+GU)/100+this.bgX)%this.bgtile.width;
-	this.bgY = ((this.difficulty+GU)/100+this.bgY)%this.bgtile.height;
+	this.bgX = ((this.difficulty*this.difficulty/2+GU)/100+this.bgX)%this.bgtile.width;
+	this.bgY = ((this.difficulty*this.difficulty/2+GU)/100+this.bgY)%this.bgtile.height;
 	
-	if(this.delta++ >= 100-this.difficulty) {
+	if(this.delta++ >= 100-10*Math.sqrt(this.difficulty)) {
 		this.event_name = this.randomEvent();
 		var random = Math.floor((Math.random()*500)+1);
 		var eo = new EventObject(1+Math.random()*14,1+Math.random()*6,300,this.event_name);
@@ -200,6 +201,8 @@ GameState.prototype.update = function(){
 			Array.remove(this.objects,i--);
 		} else if(this.objects[i].timeleft <= 0){
 			/* TODO: the player loses a life or the game */
+            sm.changeState("mainmenu");
+            sm.activeState.message = "Final score: "+this.points+" points!";
 			Array.remove(this.objects,i--);
 		}
 	}

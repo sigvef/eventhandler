@@ -39,7 +39,7 @@ OSDObject.prototype.render = function(ctx){
 			ctx.scale(this.timeleft/(this.statetimes.outend-this.statetimes.outstart), this.timeleft/(this.statetimes.outend-this.statetimes.outstart));
 			ctx.translate(-this.x*GU, -this.y*GU);
 		}
-		ctx.font = (2*GU)+"pt Arial";
+		ctx.font = (2*GU)+"pt BebasNeue";
 		ctx.globalCompositeOperation = "lighter";
 		ctx.textAlign = "center";
 		ctx.fillStyle = "#e19400";

@@ -2,6 +2,7 @@ function MainMenuState(){
 	this.bgtile = new Image();
 	this.playbutton = new Image();
 	this.eventlisteners = [];
+    this.message = "";
 }
 
 MainMenuState.prototype.init = function(){
@@ -17,6 +18,7 @@ MainMenuState.prototype.pause= function(){
 }
 MainMenuState.prototype.resume= function(){
 	mm.changeState("menu");
+    this.message = "";
 	this.clicklistener = function(){
         /* hack for music to start on iPad */
         mm.music.play();
@@ -47,6 +49,17 @@ MainMenuState.prototype.render = function(ctx){
 	ctx.scale(canvas.width/1920, canvas.width/1920);
 	ctx.drawImage(this.playbutton,0,0);
 	ctx.restore();
+    ctx.save();
+    ctx.translate(8*GU,8.2*GU);
+    var scaler = 1+0.03*Math.sin(songTime*2*Math.PI/0.48);
+    ctx.scale(scaler,scaler);
+    ctx.font = (0.65*GU)+"pt BebasNeue";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "rgba(0,0,0,0.5)";
+    ctx.fillText(this.message,0.08*GU,0.08*GU);
+    ctx.fillStyle = "#e19400";
+    ctx.fillText(this.message,0,0);
+    ctx.restore();
 }
 
 MainMenuState.prototype.update = function(){

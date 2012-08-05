@@ -17,7 +17,7 @@ function EventObject(x,y,time, type){
 
 EventObject.prototype.load = function(){
 	var images = {};
-	var types = "dblclick click cut load resize keypress copy paste".split(" ");
+	var types = "dblclick click cut beforeunload resize keypress copy paste".split(" ");
 	for(var i in types){
 		var image = new Image();
 		image.src = "gfx/events/"+types[i]+".png";
@@ -73,7 +73,7 @@ EventObject.prototype.render = function(ctx){
 		ctx.translate(this.x*GU,this.y*GU);
 		ctx.scale(scaler*Math.min(1,(this.maxtime-this.timeleft)/this.statetimes.inend),Math.min(1,(this.maxtime-this.timeleft)/this.statetimes.inend)*scaler);
 		ctx.drawImage(this.image,-this.image.width/2,-this.image.height/2);
-		ctx.font = GU+"pt Arial";
+		ctx.font = GU+"pt BebasNeue";
 		ctx.textAlign = "center";
 		ctx.fillText(this.type.toUpperCase()+"!",0,5.5*GU);
 		ctx.restore();

@@ -34,12 +34,12 @@ function loop(){
     sm.render(ctx);
 
     /* post process scanlines */
-    if(missedGFXFrames < 20){
+    if(true || missedGFXFrames < 20){
     ctx.drawImage(scanlinecanvas,0,0);
     }
     
     /* post process glow */
-    if(missedGFXFrames < 10){
+    if(true || missedGFXFrames < 10){
 	    blurcanvas.width = blurcanvas.width;
 	    blurctx.scale(0.5,0.5);
 	    blurctx.drawImage(canvas,0,0);
@@ -51,7 +51,6 @@ function loop(){
 		    blurctx.scale(0.5,0.5);
 		    blurctx.drawImage(glowcanvas,0,0);
 	    }
-    }
     ctx.save();
     ctx.fillStyle = "rgba(0,0,0,0.5)";
     ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -59,6 +58,7 @@ function loop(){
     ctx.globalAlpha = 0.5;
     ctx.drawImage(glowcanvas,0,0);
     ctx.restore();
+    }
 
 
     requestAnimFrame(loop);
