@@ -1,15 +1,27 @@
 function MainMenuState(){
 	this.bgtile = new Image();
+	this.playbutton = new Image();
+	this.eventlisteners = [];
 }
 
 MainMenuState.prototype.init = function(){
 	this.bgtile.src = "gfx/bgtile.gif";
+	this.playbutton.src = "gfx/play.png";
 	this.bgX = 0;
 	this.bgY = 0;
+	this.pbX = 0;
+	this.pbY = 0;
 }
-MainMenuState.prototype.pause= function(){}
+MainMenuState.prototype.pause= function(){
+	for(var i in this.eventlisteners){
+		document.removeEventListener(this.eventlisteners[i]);
+	}
+}
 MainMenuState.prototype.resume= function(){
 	mm.changeState("menu");
+	this.eventlisteners.push(document.addEventListener("click",function(){
+		sm.changeState("game");
+	}));
 }
 
 MainMenuState.prototype.render = function(ctx){
@@ -23,9 +35,11 @@ MainMenuState.prototype.render = function(ctx){
 		}
 	}
 
-	ctx.fillStyle = "white";
-	ctx.font = (GU/2)+"px Arial";
-	ctx.fillText("This is the main menu. press enter to play",GU,GU);
+	ctx.save();
+	ctx.translate(8*GU,4.5*GU);
+	ctx.scale(0.01*GU, 0.01*GU);
+	ctx.drawImage(this.playbutton, -this.playbutton.width/2,-this.playbutton.height/2);
+	ctx.restore();
 }
 
 MainMenuState.prototype.update = function(){

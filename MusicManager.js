@@ -4,9 +4,9 @@ function MusicManager(){
 	this.music.src = "audio/music.mp3";
 	this.state = "menu";
 	this.musictimes = {
-		menustart:7.68,
+		menustart:0,
 		menuend: 15.36,
-		menulength: 15.36-7.68,
+		menulength: 15.36,
 		gamestart:21.12,
 		gameend:109.84,
 		gamelength: 108.84-23.04
