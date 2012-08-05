@@ -46,6 +46,12 @@ function bootstrap(){
 	document.addEventListener("keyup",function(e){
 		KEYS[e.keyCode] = false;
 	});
+	
+	// mouse functions
+	document.addEventListener("mousedown",function(e) {
+		x = e.clientX - canvas.offsetLeft;
+		y = e.clientY - canvas.offsetTop;
+	});
 
 	/* add game states here */
 	sm.addState("mainmenu", new MainMenuState());
@@ -70,7 +76,6 @@ function resize(e){
 	canvas.width = 16*GU;
 	canvas.height = 9*GU;
 	canvas.style.margin = ((window.innerHeight - 9*GU) /2)+"px 0 0 "+((window.innerWidth-16*GU)/2)+"px";
-
 }
 
 window.onresize = resize;
