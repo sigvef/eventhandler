@@ -1,3 +1,4 @@
+missedGFXFrames = 0;
 
 /* smoothstep interpolaties between a and b, at time t from 0 to 1 */
 function smoothstep(a, b, t) {
@@ -22,28 +23,34 @@ function loop(){
     old_time = t;
     songTime = mm.music.currentTime;
     while(dt>20){
+	missedGFXFrames++;
         sm.update();
 	mm.update();
         dt-= 20;
     }
     /* clearing canvas */
     canvas.width = canvas.width;
+	missedGFXFrames--;
     sm.render(ctx);
 
     /* post process scanlines */
+    if(missedGFXFrames < 20){
     ctx.drawImage(scanlinecanvas,0,0);
+    }
     
     /* post process glow */
-    blurcanvas.width = blurcanvas.width;
-    blurctx.scale(0.5,0.5);
-    blurctx.drawImage(canvas,0,0);
-    for(var i=0;i<4;i++){
-	    glowcanvas.width = glowcanvas.width;
-	    glowctx.scale(2,2);
-	    glowctx.drawImage(blurcanvas,0,0);
+    if(missedGFXFrames < 10){
 	    blurcanvas.width = blurcanvas.width;
 	    blurctx.scale(0.5,0.5);
-	    blurctx.drawImage(glowcanvas,0,0);
+	    blurctx.drawImage(canvas,0,0);
+	    for(var i=0;i<4;i++){
+		    glowcanvas.width = glowcanvas.width;
+		    glowctx.scale(2,2);
+		    glowctx.drawImage(blurcanvas,0,0);
+		    blurcanvas.width = blurcanvas.width;
+		    blurctx.scale(0.5,0.5);
+		    blurctx.drawImage(glowcanvas,0,0);
+	    }
     }
     ctx.save();
     ctx.fillStyle = "rgba(0,0,0,0.5)";

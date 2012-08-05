@@ -13,3 +13,5 @@ canvas{
 	left:0;
 	cursor:pointer;
 }
+
+@font-face{font-family: BebasNeue;src: url(BebasNeue.otf);font-weight:400;}
