@@ -148,7 +148,7 @@ GameState.prototype.update = function(){
 	if(this.delta++ >= 100-this.difficulty) {
 		this.event_name = this.randomEvent();
 		var random = Math.floor((Math.random()*500)+1);
-		var eo = new EventObject(1+Math.random()*14,1+Math.random()*7,300,this.event_name);
+		var eo = new EventObject(1+Math.random()*14,1+Math.random()*6,300,this.event_name);
 		this.objects.push(eo);
 		this.delta = 0;
 	}
