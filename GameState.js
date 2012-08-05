@@ -100,7 +100,7 @@ GameState.prototype.resume = function(){
 	mm.changeState("game");
 	
     this.cutpastehack = document.createElement("textarea");
-    this.cutpastehack.value = "cut paste area!";
+    this.cutpastehack.value = "cut paste area, if you need it!";
     this.cutpastehack.style.position = "fixed";
     this.cutpastehack.style.bottom = "0";
     this.cutpastehack.style.left= "0";
