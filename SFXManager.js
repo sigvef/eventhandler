@@ -4,7 +4,7 @@ function SFXManager(){
 	for(var i in this.announcerSfxs){
 		var sound = new Audio();
 		sound.src = "audio/announcer/"+this.announcerSfxs[i]+".wav";
-		this.announcerSounds[this.annoucerSfxs[i]] = sound;
+		this.announcerSounds[this.announcerSfxs[i]] = sound;
 	}
 	this.sfxs = "levelup".split(" ");
 	this.sounds = {};
