@@ -109,11 +109,17 @@ GameState.prototype.randomEvent = function() {
 
 GameState.prototype.render = function(ctx){
 
+	ctx.save();
+	ctx.translate(8*GU,4.5*GU);
+	var scaler = 1+0.01*Math.sin(songTime*Math.PI*2/0.48);
+	ctx.scale(scaler,scaler);
+	ctx.translate(-8*GU,-4.5*GU);
 	for(var x=0;x<16*GU+this.bgtile.width;x+=this.bgtile.width){
 		for(var y=0;y<9*GU+this.bgtile.width;y+=this.bgtile.height){
 			ctx.drawImage(this.bgtile,x-this.bgX,y-this.bgY);
 		}
 	}
+	ctx.restore();
 	ctx.save();
 	ctx.fillStyle = "black";
 	ctx.globalAlpha = 0.7*(0.25+0.25*(1+Math.sin(songTime*Math.PI*2/0.48/32)));
