@@ -61,6 +61,7 @@ EventObject.prototype.render = function(ctx){
 			ctx.translate(-this.x*GU, -this.y*GU);
 		}
 		ctx.fillStyle = "rgba(0,0,0,0.5)";
+		ctx.strokeStyle = "rgba(0,0,0,0.5)";
 		ctx.beginPath();
 		ctx.moveTo(this.x*GU,this.y*GU);
 		ctx.lineTo((this.x+1)*GU,this.y*GU);
