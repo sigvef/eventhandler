@@ -18,6 +18,8 @@ MainMenuState.prototype.pause= function(){
 MainMenuState.prototype.resume= function(){
 	mm.changeState("menu");
 	this.clicklistener = function(){
+        /* hack for music to start on iPad */
+        mm.music.play();
 		sm.changeState("game");
 	};
 	document.addEventListener("click",this.clicklistener);

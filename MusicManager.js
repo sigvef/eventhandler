@@ -12,6 +12,7 @@ function MusicManager(){
 		gamelength: 120+10.56-23.04
 
 	}
+    document.body.appendChild(this.music);
 }
 
 MusicManager.prototype.changeState = function(state){
