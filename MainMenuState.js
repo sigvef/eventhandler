@@ -22,6 +22,7 @@ MainMenuState.prototype.pause= function(){
 }
 MainMenuState.prototype.resume= function(){
 	mm.changeState("menu");
+    document.querySelector('.gh-follow').style.display = 'block';
     this.message = "";
 	this.clicklistener = function(){
         /* hack for music to start on iPad */

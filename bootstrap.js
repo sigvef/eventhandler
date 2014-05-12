@@ -137,6 +137,12 @@ function resize(e){
 	canvas.width = 16*GU;
 	canvas.height = 9*GU;
 	canvas.style.margin = ((window.innerHeight - 9*GU) /2)+"px 0 0 "+((window.innerWidth-16*GU)/2)+"px";
+
+    var gh = document.querySelector('.gh-follow');
+    if(gh){
+        gh.style.top = (window.innerHeight - 9*GU) /2 + 10 + 'px';
+        gh.style.right = (window.innerWidth - 16*GU) /2 + 10 + 'px';
+    }
 	blurcanvas.width = 16*GU/2;
 	blurcanvas.height = 9*GU/2;
 	glowcanvas.width = 16*GU;

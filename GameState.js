@@ -76,6 +76,8 @@ GameState.prototype.resume = function(){
 	// Accept game state
 	mm.changeState("game");
 
+    document.querySelector('.gh-follow').style.display = 'none';
+
     this.ps = new ParticleSystem();
 	
     this.cutpastehack = document.createElement("textarea");
