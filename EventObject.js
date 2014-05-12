@@ -18,11 +18,16 @@ function EventObject(x,y,time, type){
 EventObject.prototype.load = function(){
 	var images = {};
 	var types = "mousewheel contextmenu dblclick click cut beforeunload resize keypress copy paste".split(" ");
-	for(var i in types){
+	for(var i in types) {
 		var image = new Image();
-        loaded++;
-        image.onload = function(){console.log(this,"loaded");loaded--; }
+		loaded++;
+		image.onload = function(){console.log(this,"loaded");loaded--; }
 		image.src = "gfx/events/"+types[i]+".png";
+
+		// Hack to avoid getting blocked by AdBlock Plus.
+    		if (types[i] === "dblclick")
+  			image.src = "gfx/events/dclick.png";
+  			
 		images[types[i]] = image;
 	}
 	EventObject.prototype.images = images;
